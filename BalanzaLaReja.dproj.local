@@ -1,11 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
-  <Transactions>
-    <Transaction>2021/06/28 18:54:31.520,=C:\Users\dragu\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
-    <Transaction>2021/06/28 18:54:53.581,C:\Users\dragu\Documents\Embarcadero\Studio\Projects\Main.pas=C:\Users\dragu\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
-    <Transaction>2021/06/28 18:54:53.581,C:\Users\dragu\Documents\Embarcadero\Studio\Projects\Main.dfm=C:\Users\dragu\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
-    <Transaction>2021/06/28 18:55:28.377,C:\Users\dragu\Documents\Git Projects\Balanza Nine\Main.pas=C:\Users\dragu\Documents\Embarcadero\Studio\Projects\Main.pas</Transaction>
-    <Transaction>2021/06/28 18:55:28.377,C:\Users\dragu\Documents\Git Projects\Balanza Nine\Main.dfm=C:\Users\dragu\Documents\Embarcadero\Studio\Projects\Main.dfm</Transaction>
-    <Transaction>2021/06/28 18:55:52.440,C:\Users\dragu\Documents\Git Projects\Balanza Nine\BalanzaLaReja.dproj=C:\Users\dragu\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+	<Transactions>
+    <Transaction>2021/06/28 18:54:31.000.520,=C:\Users\dragu\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2021/06/28 18:54:53.000.581,C:\Users\dragu\Documents\Embarcadero\Studio\Projects\Unit1.dfm=C:\Users\dragu\Documents\Embarcadero\Studio\Projects\Main.dfm</Transaction>
+    <Transaction>2021/06/28 18:54:53.000.581,C:\Users\dragu\Documents\Embarcadero\Studio\Projects\Unit1.pas=C:\Users\dragu\Documents\Embarcadero\Studio\Projects\Main.pas</Transaction>
+    <Transaction>2021/06/28 18:55:28.000.377,C:\Users\dragu\Documents\Embarcadero\Studio\Projects\Main.pas=C:\Users\dragu\Documents\Git Projects\Balanza Nine\Main.pas</Transaction>
+    <Transaction>2021/06/28 18:55:28.000.377,C:\Users\dragu\Documents\Embarcadero\Studio\Projects\Main.dfm=C:\Users\dragu\Documents\Git Projects\Balanza Nine\Main.dfm</Transaction>
+    <Transaction>2021/06/28 18:55:52.000.440,C:\Users\dragu\Documents\Embarcadero\Studio\Projects\Project1.dproj=C:\Users\dragu\Documents\Git Projects\Balanza Nine\BalanzaLaReja.dproj</Transaction>
+    <Transaction>2021/06/29 21:11:55.005,=C:\Users\dragu\Documents\Git Projects\Balanza Nine\Unit1.pas</Transaction>
+    <Transaction>2021/06/29 21:12:10.854,C:\Users\dragu\Documents\Git Projects\Balanza Nine\Estructuras.pas=C:\Users\dragu\Documents\Git Projects\Balanza Nine\Unit1.pas</Transaction>
+    <Transaction>2021/06/29 21:34:01.111,C:\Users\dragu\Documents\Git Projects\Balanza Nine\Estructuras.pas=</Transaction>
+    <Transaction>2021/06/29 21:34:43.363,=C:\Users\dragu\Documents\Git Projects\Balanza Nine\Unit1.pas</Transaction>
+    <Transaction>2021/06/29 21:36:36.841,C:\Users\dragu\Documents\Git Projects\Balanza Nine\Estructuras.pas=C:\Users\dragu\Documents\Git Projects\Balanza Nine\Unit1.pas</Transaction>
   </Transactions>
 </BorlandProject>

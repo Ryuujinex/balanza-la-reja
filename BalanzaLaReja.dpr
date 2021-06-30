@@ -2,7 +2,8 @@ program BalanzaLaReja;
 
 uses
   Vcl.Forms,
-  Main in 'Main.pas' {Form1};
+  Main in 'Main.pas' {Form1},
+  Estructuras in 'Estructuras.pas';
 
 {$R *.res}
 
