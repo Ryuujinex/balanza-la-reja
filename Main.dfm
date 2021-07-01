@@ -23,12 +23,13 @@ object Form1: TForm1
     OnClick = Button1Click
   end
   object Memo1: TMemo
-    Left = 249
-    Top = 48
+    Left = 209
+    Top = 24
     Width = 185
-    Height = 89
+    Height = 177
     Lines.Strings = (
       'Memo1')
+    ScrollBars = ssVertical
     TabOrder = 1
   end
 end

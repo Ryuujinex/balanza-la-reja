@@ -1,9 +1,12 @@
-unit Estructuras;
+unit EstructurasBalanza;
 
 interface
 
 uses
   Sysutils;
+
+const
+  FilePath = '.\data/Productos.dat';
 
 type
   TProductos = record
@@ -19,12 +22,12 @@ type
     Alta: Boolean;
   end;
 
-  Archivador = object
+  FileManager = object
   private
     FileProductos: file of TProductos;
     FileTransportes: file of TTransportes;
-    Productos: TProductos;
-    Transportes: TTransportes;
+    // Productos: TProductos;
+    // Transportes: TTransportes;
     // procedure CrearArchivoProd();
     procedure CrearArchivoTrans();
   public
@@ -34,17 +37,19 @@ type
 
 implementation
 
-procedure Archivador.CrearArchivoProd();
+procedure FileManager.CrearArchivoProd();
 var
   Rec: TProductos;
   I: Integer;
 begin
   Rec.Nombre:= 'Arena X Kg Perez';
-  Rec.Codigo:= -1545;
+  Rec.Codigo:= 0;
   Rec.Alta:= True;
-  AssignFile(FileProductos, '.\Productos.dat');
-  Reset(FileProductos);
-  for I:= 1 to 1000 do
+  
+  while not Eof(FileProductos) do
+
+    Seek(Fileproductos, FilePos(Fileproductos) + 1);
+  for I:= 1 to 100000 do
     begin
       write(FileProductos, Rec);
       Rec.Codigo:= Rec.Codigo + 1;
@@ -52,12 +57,13 @@ begin
   CloseFile(FileProductos);
 end;
 
-function Archivador.Mostrar(): string;
+function FileManager.Mostrar(): string;
 var
   Rec: TProductos;
   Str: string;
 begin
   Str:= '';
+  AssignFile(FileProductos, FilePath);
   Reset(FileProductos);
   while not Eof(FileProductos) do
     begin
@@ -68,7 +74,7 @@ begin
   Mostrar:= Str;
 end;
 
-procedure Archivador.CrearArchivoTrans;
+procedure FileManager.CrearArchivoTrans;
 begin
 
 end;
