@@ -3,35 +3,29 @@ unit EstructurasBalanza;
 interface
 
 uses
-  Sysutils;
+  Sysutils, File_manager;
 
 const
   FilePath = '.\data/Productos.dat';
 
 type
-  TProductos = record
-    Nombre: string[32];
-    Codigo: Integer;
-    Alta: Boolean;
-  end;
 
   TTransportes = record
     Nombre: string[32];
     Codigo: Integer;
-    Transportista: array [1 .. 32] of string[16];
+    Transportista: array [1 .. 32] of string[32];
     Alta: Boolean;
   end;
 
   FileManager = object
   private
-    FileProductos: file of TProductos;
-    FileTransportes: file of TTransportes;
-    // Productos: TProductos;
-    // Transportes: TTransportes;
-    // procedure CrearArchivoProd();
+
+    Productos: TProductos;
+    Transportes: TTransportes;
+    procedure CrearArchivoProd();
     procedure CrearArchivoTrans();
   public
-    procedure CrearArchivoProd();
+    // procedure CrearArchivoProd();
     function Mostrar(): string;
   end;
 
@@ -45,7 +39,7 @@ begin
   Rec.Nombre:= 'Arena X Kg Perez';
   Rec.Codigo:= 0;
   Rec.Alta:= True;
-  
+
   while not Eof(FileProductos) do
 
     Seek(Fileproductos, FilePos(Fileproductos) + 1);

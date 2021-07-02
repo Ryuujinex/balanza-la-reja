@@ -7,19 +7,52 @@ uses
 
 type
   Errores = (OK, FUERA_RANGO, NO_EXISTE, ERROR); // Devolucion de las funciones.
+  Switch = (FPROD, FTRAN); // Selector de archivo a trabajar.
+
+  TProductos = record
+    Nombre: string[32];
+    Codigo: Integer;
+    Alta: Boolean;
+  end;
+
+  TTransportes = record
+    Nombre: string[32];
+    Codigo: Integer;
+    Transportista: array [1 .. 32] of string[32];
+    Alta: Boolean;
+  end;
 
   FileManagerObj = object
   private
     QRecords: Integer;
+    Path: string;
+    FileProductos: file of TProductos;
+    FileTransporte: file of TTransportes;
     procedure CheckQRecs(var Archivo: file);
   public
     function Crear(var Archivo: file; Path: string): Errores;
     function Agregar(var Archivo: file; Path: string; Rec: Pointer): Errores;
     function Modificar(var Archivo: file; Path: string; Rec: Pointer; Pos: Integer): Errores;
     function Recuperar(var Archivo: file; Path: string; Pos: Integer; var Rec: Pointer): Errores;
+    function Iniciar(Select: Switch; PathFile: string): Errores;
   end;
 
 implementation
+
+function Filemanagerobj.Iniciar(Select: Switch; PathFile: string): Errores;
+begin
+  Path:= PathFile;
+  if Select = FPROD then
+    begin
+      AssignFile(FileProductos, Path);
+      CheckQRecs(FileProductos);
+    end
+  else
+    begin
+      AssignFile(FileTransporte, Path);
+      CheckQRecs(FileProductos);
+    end;
+end;
 
 // Crea el archivo, devolviendo true. Si existe previamente, devuelve false.
 function FileManagerObj.Crear(var Archivo: file; Path: string): Errores;
