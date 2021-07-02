@@ -4,7 +4,8 @@ uses
   Vcl.Forms,
   Main in 'Main.pas' {Form1},
   EstructurasBalanza in 'EstructurasBalanza.pas',
-  File_Manager in 'File_Manager.pas';
+  File_Manager in 'File_Manager.pas',
+  Product_Manager in 'Product_Manager.pas';
 
 {$R *.res}
 
