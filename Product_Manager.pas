@@ -21,32 +21,30 @@ type
     Archivo: file of TProductos;
     procedure CheckQRecs();
   public
-    function Crear(): Errores;
+    procedure Crear();
     function Agregar(Rec: TProductos): Errores;
-    function Modificar(Rec: TProductos): Errores;
+    function Modificar(Pos: Integer; Rec: TProductos): Errores;
     function Recuperar(Pos: Integer; out Rec: TProductos): Errores;
-    function Iniciar(PathFile: string): Errores;
+    procedure Iniciar(PathFile: string);
   end;
 
 implementation
 
-function ProductManagerObj.Iniciar(PathFile: string): Errores;
+// Inicializa las variables internas.
+procedure ProductManagerObj.Iniciar(PathFile: string);
 begin
   Path:= PathFile;
   AssignFile(Archivo, Path);
+  if FileExists(Archivo) then
+    QRecords;
 end;
 
-// Crea el archivo, devolviendo true. Si existe previamente, devuelve false.
-function ProductManagerObj.Crear(): Errores;
+// Crea el archivo, devolviendo true. Si existe previamente, devuelve false y no crea nada.
+procedure ProductManagerObj.Crear();
 begin
-  if FileExists(Path) then
-    Crear:= ERROR
-  else
-    begin
-      Rewrite(Archivo);
-      QRecords:= 0;
-      Crear:= OK;
-    end;
+  Rewrite(Archivo);
+  Closefile(Archivo);
+  QRecords:= 0;
 end;
 
 // Actualiza la cantidad de registros en el archivo.
@@ -61,13 +59,13 @@ begin
 end;
 
 // Añade un registro al archivo, se debe pasar el puntero al registro.
-function ProductManagerObj.Agregar(var Archivo: file; Path: string; Rec: Pointer): Errores;
+function ProductManagerObj.Agregar(Rec: TProductos): Errores;
 begin
-  AssignFile(Archivo, Path);
   if FileExists(Path) then
     begin
       Reset(Archivo);
-      write(Archivo, Rec^);
+      Seek(Archivo, QRecords);
+      write(Archivo, Rec);
       Closefile(Archivo);
       Agregar:= OK
     end
@@ -76,20 +74,17 @@ begin
 end;
 
 // Modifica un registro del archivo.
-function ProductManagerObj.Modificar(var Archivo: file; Path: string; Rec: Pointer; Pos: Integer): Errores;
+function ProductManagerObj.Modificar(Pos: Integer; Rec: TProductos): Errores;
 begin
-  AssignFile(Archivo, Path);
   if FileExists(Path) then
     begin
-      if QRecords = 0 then
-        CheckQRecs(Archivo);
       if (Pos >= QRecords) or (Pos < 0) then
         Modificar:= FUERA_RANGO
       else
         begin
           Reset(Archivo);
           Seek(Archivo, Pos);
-          write(Archivo, Rec^);
+          write(Archivo, Rec);
           Closefile(Archivo);
           Modificar:= OK
         end;
@@ -99,20 +94,18 @@ begin
 end;
 
 // Obtiene los datos de un registro.
-function ProductManagerObj.Recuperar(var Archivo: file; Path: string; Pos: Integer; var Rec: Pointer): Errores;
+function ProductManagerObj.Recuperar(Pos: Integer; out Rec: TProductos): Errores;
 begin
-  AssignFile(Archivo, Path);
+  // AssignFile(Archivo, Path);
   if FileExists(Path) then
     begin
-      if QRecords = 0 then
-        CheckQRecs(Archivo);
       if (Pos >= QRecords) or (Pos < 0) then
         Recuperar:= FUERA_RANGO
       else
         begin
           Reset(Archivo);
           Seek(Archivo, Pos);
-          read(Archivo, Rec^);
+          read(Archivo, Rec);
           Closefile(Archivo);
           Recuperar:= OK
         end
