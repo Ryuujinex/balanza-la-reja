@@ -3,31 +3,12 @@ unit EstructurasBalanza;
 interface
 
 uses
-  Sysutils, File_manager;
+  Sysutils, Transport_Manager, Product_Manager;
 
 const
   FilePath = '.\data/Productos.dat';
 
-type
-
-  TTransportes = record
-    Nombre: string[32];
-    Codigo: Integer;
-    Transportista: array [1 .. 32] of string[32];
-    Alta: Boolean;
-  end;
-
-  FileManager = object
-  private
-
-    Productos: TProductos;
-    Transportes: TTransportes;
-    procedure CrearArchivoProd();
-    procedure CrearArchivoTrans();
-  public
-    // procedure CrearArchivoProd();
-    function Mostrar(): string;
-  end;
+//type
 
 implementation
 

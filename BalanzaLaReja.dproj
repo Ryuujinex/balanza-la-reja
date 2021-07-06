@@ -103,8 +103,8 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="EstructurasBalanza.pas"/>
-        <DCCReference Include="File_Manager.pas"/>
         <DCCReference Include="Product_Manager.pas"/>
+        <DCCReference Include="Transport_Manager.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
