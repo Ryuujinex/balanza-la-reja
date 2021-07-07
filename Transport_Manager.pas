@@ -6,7 +6,7 @@ uses
   Sysutils;
 
 type
-  Errores = (OK, FUERA_RANGO, NO_EXISTE, ERROR); // Devolucion de las funciones.
+  TErrores = (OK, FUERA_RANGO, NO_EXISTE, ERROR); // Devolucion de las funciones.
 
   TTransportes = record
     Nombre: string[32];
@@ -15,7 +15,7 @@ type
     Alta: Boolean;
   end;
 
-  ProductManagerObj = object
+  TransportManagerObj = object
   private
     QRecords: Integer;
     Path: string;
@@ -23,25 +23,25 @@ type
     procedure CheckQRecs();
   public
     procedure Crear();
-    function Agregar(Rec: TTransportes): Errores;
-    function Modificar(Pos: Integer; Rec: TTransportes): Errores;
-    function Recuperar(Pos: Integer; out Rec: TTransportes): Errores;
+    function Agregar(Rec: TTransportes): TErrores;
+    function Modificar(Pos: Integer; Rec: TTransportes): TErrores;
+    function Recuperar(Pos: Integer; out Rec: TTransportes): TErrores;
     procedure Iniciar(PathFile: string);
   end;
 
 implementation
 
 // Inicializa las variables internas.
-procedure ProductManagerObj.Iniciar(PathFile: string);
+procedure TransportManagerObj.Iniciar(PathFile: string);
 begin
   Path:= PathFile;
   AssignFile(Archivo, Path);
-  if FileExists(Archivo) then
-    QRecords;
+  if FileExists(Path) then
+    CheckQRecs;
 end;
 
 // Crea el archivo, devolviendo true. Si existe previamente, devuelve false y no crea nada.
-procedure ProductManagerObj.Crear();
+procedure TransportManagerObj.Crear();
 begin
   Rewrite(Archivo);
   Closefile(Archivo);
@@ -49,7 +49,7 @@ begin
 end;
 
 // Actualiza la cantidad de registros en el archivo.
-procedure ProductManagerObj.CheckQRecs();
+procedure TransportManagerObj.CheckQRecs();
 begin
   QRecords:= 0;
   while not Eof(Archivo) do
@@ -60,7 +60,7 @@ begin
 end;
 
 // Añade un registro al archivo, se debe pasar el puntero al registro.
-function ProductManagerObj.Agregar(Rec: TTransportes): Errores;
+function TransportManagerObj.Agregar(Rec: TTransportes): TErrores;
 begin
   if FileExists(Path) then
     begin
@@ -68,6 +68,7 @@ begin
       Seek(Archivo, QRecords);
       write(Archivo, Rec);
       Closefile(Archivo);
+      QRecords:= QRecords + 1;
       Agregar:= OK
     end
   else
@@ -75,7 +76,7 @@ begin
 end;
 
 // Modifica un registro del archivo.
-function ProductManagerObj.Modificar(Pos: Integer; Rec: TTransportes): Errores;
+function TransportManagerObj.Modificar(Pos: Integer; Rec: TTransportes): TErrores;
 begin
   if FileExists(Path) then
     begin
@@ -95,7 +96,7 @@ begin
 end;
 
 // Obtiene los datos de un registro.
-function ProductManagerObj.Recuperar(Pos: Integer; out Rec: TTransportes): Errores;
+function TransportManagerObj.Recuperar(Pos: Integer; out Rec: TTransportes): TErrores;
 begin
   // AssignFile(Archivo, Path);
   if FileExists(Path) then

@@ -102,7 +102,6 @@
             <Form>Form1</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="EstructurasBalanza.pas"/>
         <DCCReference Include="Product_Manager.pas"/>
         <DCCReference Include="Transport_Manager.pas"/>
         <BuildConfiguration Include="Release">

@@ -3,7 +3,6 @@ program BalanzaLaReja;
 uses
   Vcl.Forms,
   Main in 'Main.pas' {Form1},
-  EstructurasBalanza in 'EstructurasBalanza.pas',
   Product_Manager in 'Product_Manager.pas',
   Transport_Manager in 'Transport_Manager.pas';
 

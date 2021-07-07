@@ -6,7 +6,7 @@ uses
   Sysutils;
 
 type
-  Errores = (OK, FUERA_RANGO, NO_EXISTE, ERROR); // Devolucion de las funciones.
+  PErrores = (OK, FUERA_RANGO, NO_EXISTE, ERROR); // Devolucion de las funciones.
 
   TProductos = record
     Nombre: string[32];
@@ -22,9 +22,9 @@ type
     procedure CheckQRecs();
   public
     procedure Crear();
-    function Agregar(Rec: TProductos): Errores;
-    function Modificar(Pos: Integer; Rec: TProductos): Errores;
-    function Recuperar(Pos: Integer; out Rec: TProductos): Errores;
+    function Agregar(Rec: TProductos): PErrores;
+    function Modificar(Pos: Integer; Rec: TProductos): PErrores;
+    function Recuperar(Pos: Integer; out Rec: TProductos): PErrores;
     procedure Iniciar(PathFile: string);
   end;
 
@@ -35,8 +35,8 @@ procedure ProductManagerObj.Iniciar(PathFile: string);
 begin
   Path:= PathFile;
   AssignFile(Archivo, Path);
-  if FileExists(Archivo) then
-    QRecords;
+  if FileExists(Path) then
+    CheckQRecs;
 end;
 
 // Crea el archivo, devolviendo true. Si existe previamente, devuelve false y no crea nada.
@@ -51,15 +51,17 @@ end;
 procedure ProductManagerObj.CheckQRecs();
 begin
   QRecords:= 0;
+  Reset(Archivo);
   while not Eof(Archivo) do
     begin
       QRecords:= QRecords + 1;
       Seek(Archivo, FilePos(Archivo) + 1);
     end;
+  Closefile(Archivo);
 end;
 
 // Añade un registro al archivo, se debe pasar el puntero al registro.
-function ProductManagerObj.Agregar(Rec: TProductos): Errores;
+function ProductManagerObj.Agregar(Rec: TProductos): PErrores;
 begin
   if FileExists(Path) then
     begin
@@ -67,6 +69,7 @@ begin
       Seek(Archivo, QRecords);
       write(Archivo, Rec);
       Closefile(Archivo);
+      QRecords:= QRecords + 1;
       Agregar:= OK
     end
   else
@@ -74,7 +77,7 @@ begin
 end;
 
 // Modifica un registro del archivo.
-function ProductManagerObj.Modificar(Pos: Integer; Rec: TProductos): Errores;
+function ProductManagerObj.Modificar(Pos: Integer; Rec: TProductos): PErrores;
 begin
   if FileExists(Path) then
     begin
@@ -94,7 +97,7 @@ begin
 end;
 
 // Obtiene los datos de un registro.
-function ProductManagerObj.Recuperar(Pos: Integer; out Rec: TProductos): Errores;
+function ProductManagerObj.Recuperar(Pos: Integer; out Rec: TProductos): PErrores;
 begin
   // AssignFile(Archivo, Path);
   if FileExists(Path) then
