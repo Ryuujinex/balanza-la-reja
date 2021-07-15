@@ -93,5 +93,15 @@ object Form1: TForm1
     Height = 25
     Caption = 'Modificacion'
     TabOrder = 8
+    OnClick = Button6Click
+  end
+  object Button7: TButton
+    Left = 8
+    Top = 195
+    Width = 75
+    Height = 25
+    Caption = 'Rec String'
+    TabOrder = 9
+    OnClick = Button7Click
   end
 end

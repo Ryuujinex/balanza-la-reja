@@ -26,6 +26,7 @@ type
     function Modificar(Pos: Integer; Rec: TProductos): PErrores;
     function Recuperar(Pos: Integer; out Rec: TProductos): PErrores;
     procedure Iniciar(PathFile: string);
+    function DevolverCadena(): string;
   end;
 
 implementation
@@ -115,6 +116,27 @@ begin
     end
   else
     Recuperar:= NO_EXISTE;
+end;
+
+function Productmanagerobj.DevolverCadena(): string;
+var
+  Rec: TProductos;
+  Str: string;
+begin
+  if FileExists(Path) then
+    begin
+      Reset(Archivo);
+      Str:= '';
+      while not Eof(Archivo) do
+        begin
+          read(Archivo, Rec);
+          Str:= Str + #13 + #10 + Rec.Codigo.Tostring + ', ' + Rec.Nombre + '.' ;
+        end;
+      Closefile(Archivo);
+    end
+  else
+    Str:= 'Archivo inexistente.';
+  Devolvercadena:= Str;
 end;
 
 end.

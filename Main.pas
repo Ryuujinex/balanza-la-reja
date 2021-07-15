@@ -17,10 +17,13 @@ type
     Button4: TButton;
     Button5: TButton;
     Button6: TButton;
+    Button7: TButton;
     procedure Button1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
+    procedure Button7Click(Sender: TObject);
+    procedure Button6Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -61,9 +64,32 @@ end;
 
 procedure TForm1.Button3Click(Sender: TObject);
 var
-  Red: Tproductos;
+  Rec: Tproductos;
 begin
+  if Productos.Recuperar(Strtoint(LabeledEdit1.Text), Rec) = PErrores.OK then
 
+    Memo1.Lines.Add(Rec.Codigo.ToString + ', ' + Rec.Nombre + '.')
+  else
+    if Productos.Recuperar(Strtoint(LabeledEdit1.Text), Rec) = PErrores.FUERA_RANGO then
+      Memo1.Lines.Add('No existe esa Posicion.');
+end;
+
+procedure TForm1.Button6Click(Sender: TObject);
+var
+  Rec: Tproductos;
+begin
+  Rec.Codigo:= Strtoint(LabeledEdit1.Text);
+  Rec.Nombre:= LabeledEdit2.Text;
+  if Productos.Modificar(Strtoint(LabeledEdit1.Text), Rec) = PErrores.OK then
+    Memo1.Lines.Add('Modificado el registro ' + LabeledEdit1.Text + ' correctamente.')
+  else
+    if Productos.Recuperar(Strtoint(LabeledEdit1.Text), Rec) = PErrores.FUERA_RANGO then
+      Memo1.Lines.Add('No existe esa Posicion.');
+end;
+
+procedure TForm1.Button7Click(Sender: TObject);
+begin
+  Memo1.Lines.Add(Productos.DevolverCadena);
 end;
 
 procedure TForm1.FormShow(Sender: TObject);
