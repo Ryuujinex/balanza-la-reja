@@ -23,10 +23,13 @@ type
   public
     procedure Crear();
     function Agregar(Rec: TProductos): PErrores;
+    function Alta(Pos: Integer): PErrores;
+    function Baja(Pos: Integer): PErrores;
     function Modificar(Pos: Integer; Rec: TProductos): PErrores;
     function Recuperar(Pos: Integer; out Rec: TProductos): PErrores;
     procedure Iniciar(PathFile: string);
-    function DevolverCadena(): string;
+    function DevolverCadenaAlta(): string;
+    function DevolverCadenaBaja(): string;
   end;
 
 implementation
@@ -118,7 +121,58 @@ begin
     Recuperar:= NO_EXISTE;
 end;
 
-function Productmanagerobj.DevolverCadena(): string;
+// Da de Alta un Registro
+function ProductManagerObj.Alta(Pos: Integer): PErrores;
+var
+  Rec: TProductos;
+begin
+  if FileExists(Path) then
+    begin
+      if (Pos >= QRecords) or (Pos < 0) then
+        Alta:= FUERA_RANGO
+      else
+        begin
+          Reset(Archivo);
+          Seek(Archivo, Pos);
+          read(Archivo, Rec);
+          Rec.Alta:= True;
+          Seek(Archivo, Pos);
+          write(Archivo, Rec);
+          Closefile(Archivo);
+          Alta:= OK
+        end
+    end
+  else
+    Alta:= NO_EXISTE;
+end;
+
+// Da de Baja un Registro
+function ProductManagerObj.Baja(Pos: Integer): PErrores;
+var
+  Rec: TProductos;
+begin
+  if FileExists(Path) then
+    begin
+      if (Pos >= QRecords) or (Pos < 0) then
+        Baja:= FUERA_RANGO
+      else
+        begin
+          Reset(Archivo);
+          Seek(Archivo, Pos);
+          read(Archivo, Rec);
+          Rec.Alta:= False;
+          Seek(Archivo, Pos);
+          write(Archivo, Rec);
+          Closefile(Archivo);
+          Baja:= OK
+        end
+    end
+  else
+    Baja:= NO_EXISTE;
+end;
+
+// Devuelve un string con los registros dados de alta
+function Productmanagerobj.DevolverCadenaAlta(): string;
 var
   Rec: TProductos;
   Str: string;
@@ -130,13 +184,37 @@ begin
       while not Eof(Archivo) do
         begin
           read(Archivo, Rec);
-          Str:= Str + #13 + #10 + Rec.Codigo.Tostring + ', ' + Rec.Nombre + '.' ;
+          if Rec.Alta then
+            Str:= Str + #13 + #10 + Rec.Codigo.Tostring + ', ' + Rec.Nombre + '.';
         end;
       Closefile(Archivo);
     end
   else
     Str:= 'Archivo inexistente.';
-  Devolvercadena:= Str;
+  DevolvercadenaAlta:= Str;
+end;
+
+// Devuelve un string con los registros dados de baja
+function Productmanagerobj.DevolverCadenaBaja(): string;
+var
+  Rec: TProductos;
+  Str: string;
+begin
+  if FileExists(Path) then
+    begin
+      Reset(Archivo);
+      Str:= '';
+      while not Eof(Archivo) do
+        begin
+          read(Archivo, Rec);
+          if Rec.Alta then
+            Str:= Str + #13 + #10 + Rec.Codigo.Tostring + ', ' + Rec.Nombre + '.';
+        end;
+      Closefile(Archivo);
+    end
+  else
+    Str:= 'Archivo inexistente.';
+  DevolvercadenaBaja:= Str;
 end;
 
 end.

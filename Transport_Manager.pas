@@ -24,9 +24,13 @@ type
   public
     procedure Crear();
     function Agregar(Rec: TTransportes): TErrores;
+    function Alta(Pos: Integer): TErrores;
+    function Baja(Pos: Integer): TErrores;
     function Modificar(Pos: Integer; Rec: TTransportes): TErrores;
     function Recuperar(Pos: Integer; out Rec: TTransportes): TErrores;
     procedure Iniciar(PathFile: string);
+    function DevolverCadenaAlta(): string;
+    function DevolverCadenaBaja(): string;
   end;
 
 implementation
@@ -52,11 +56,13 @@ end;
 procedure TransportManagerObj.CheckQRecs();
 begin
   QRecords:= 0;
+  Reset(Archivo);
   while not Eof(Archivo) do
     begin
       QRecords:= QRecords + 1;
       Seek(Archivo, FilePos(Archivo) + 1);
     end;
+  Closefile(Archivo);
 end;
 
 // Añade un registro al archivo, se debe pasar el puntero al registro.
@@ -114,6 +120,102 @@ begin
     end
   else
     Recuperar:= NO_EXISTE;
+end;
+
+// Da de Alta un Registro
+function TransportManagerObj.Alta(Pos: Integer): TErrores;
+var
+  Rec: TTransportes;
+begin
+  if FileExists(Path) then
+    begin
+      if (Pos >= QRecords) or (Pos < 0) then
+        Alta:= FUERA_RANGO
+      else
+        begin
+          Reset(Archivo);
+          Seek(Archivo, Pos);
+          read(Archivo, Rec);
+          Rec.Alta:= True;
+          Seek(Archivo, Pos);
+          write(Archivo, Rec);
+          Closefile(Archivo);
+          Alta:= OK
+        end
+    end
+  else
+    Alta:= NO_EXISTE;
+end;
+
+// Da de Baja un Registro
+function TransportManagerObj.Baja(Pos: Integer): TErrores;
+var
+  Rec: TTransportes;
+begin
+  if FileExists(Path) then
+    begin
+      if (Pos >= QRecords) or (Pos < 0) then
+        Baja:= FUERA_RANGO
+      else
+        begin
+          Reset(Archivo);
+          Seek(Archivo, Pos);
+          read(Archivo, Rec);
+          Rec.Alta:= False;
+          Seek(Archivo, Pos);
+          write(Archivo, Rec);
+          Closefile(Archivo);
+          Baja:= OK
+        end
+    end
+  else
+    Baja:= NO_EXISTE;
+end;
+
+// Devuelve un string con los registros dados de alta
+function TransportManagerObj.DevolverCadenaAlta(): string;
+var
+  Rec: TTransportes;
+  Str: string;
+begin
+  if FileExists(Path) then
+    begin
+      Reset(Archivo);
+      Str:= '';
+      while not Eof(Archivo) do
+        begin
+          read(Archivo, Rec);
+          if Rec.Alta then
+            Str:= Str + #13 + #10 + Rec.Codigo.Tostring + ', ' + Rec.Nombre + '.';
+        end;
+      Closefile(Archivo);
+    end
+  else
+    Str:= 'Archivo inexistente.';
+  DevolvercadenaAlta:= Str;
+end;
+
+// Devuelve un string con los registros dados de baja
+function TransportManagerObj.DevolverCadenaBaja(): string;
+var
+  Rec: TTransportes;
+  Str: string;
+begin
+  if FileExists(Path) then
+    begin
+      Reset(Archivo);
+      Str:= '';
+      while not Eof(Archivo) do
+        begin
+          read(Archivo, Rec);
+          if Rec.Alta then
+            Str:= Str + #13 + #10 + Rec.Codigo.Tostring + ', ' + Rec.Nombre + '.';
+        end;
+      Closefile(Archivo);
+    end
+  else
+    Str:= 'Archivo inexistente.';
+  DevolvercadenaBaja:= Str;
 end;
 
 end.

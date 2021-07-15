@@ -24,6 +24,7 @@ type
     procedure Button3Click(Sender: TObject);
     procedure Button7Click(Sender: TObject);
     procedure Button6Click(Sender: TObject);
+    procedure Button4Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -74,6 +75,15 @@ begin
       Memo1.Lines.Add('No existe esa Posicion.');
 end;
 
+procedure TForm1.Button4Click(Sender: TObject);
+begin
+  if Productos.Baja(Strtoint(LabeledEdit1.Text)) = Product_Manager.OK then
+    Memo1.Lines.Add('Registro dado de baja correctamente')
+  else
+    if Productos.Baja(Strtoint(LabeledEdit1.Text)) = Product_Manager.NO_EXISTE then
+      Memo1.Lines.Add('Archivo inexistente.');
+end;
+
 procedure TForm1.Button6Click(Sender: TObject);
 var
   Rec: Tproductos;
@@ -89,7 +99,7 @@ end;
 
 procedure TForm1.Button7Click(Sender: TObject);
 begin
-  Memo1.Lines.Add(Productos.DevolverCadena);
+  Memo1.Lines.Add(Productos.DevolverCadenaAlta);
 end;
 
 procedure TForm1.FormShow(Sender: TObject);
